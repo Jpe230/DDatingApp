@@ -3,6 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# SCUT Stuff
+neuralnetwork/data/
+neuralnetwork/dataset/
+
+# Selenium data
+tinderbot/seleniumData/
+
+# Trained NN
+common/*
+
 # C extensions
 *.so
 

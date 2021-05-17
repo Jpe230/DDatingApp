@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "C:\\Users\\pablo\\.conda\\envs\\tf\\python.exe",
+    "python.analysis.extraPaths": ["./neuralnetwork", "./tinderbot", "./tinderbot/nn", "./tinderbot/tinder", "./tinderbot/tinder/login"]
+}
