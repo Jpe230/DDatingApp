@@ -7,6 +7,7 @@ SCUT_PATH = "SCUT-FBP5500_v2"
 DATASET_PATH = os.path.join(CURRENT_PATH, "dataset", SCUT_PATH)
 DATA_PATH = os.path.join(DATASET_PATH, "Images")
 RATING_PATH = os.path.join(DATASET_PATH, "train_test_files", "All_labels.txt")
+URATING_PATH = os.path.join(DATASET_PATH, "train_test_files", "User_labels.txt")
 MODEL_PATH = os.path.join(PARENT_PATH, "common",
                           "haarcascade_frontalface_alt.xml")
 

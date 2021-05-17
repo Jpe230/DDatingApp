@@ -107,6 +107,9 @@ def randomizeImage(img):
 
 label_dist = []
 
+rating_files = [ const.RATING_PATH,
+                 const.URATING_PATH]
+
 # Normalized values in 5 cat.
 prVoteImgName = ''
 prVoteImgScr1 = 0
@@ -115,69 +118,71 @@ prVoteImgScr3 = 0
 prVoteImgScr4 = 0
 prVoteImgScr5 = 0
 
-# Read Labels
-ratingFile = open(const.RATING_PATH, 'r')
-lines = ratingFile.readlines()
-currentIndex = 0
+for file in rating_files:
+    
+    # Read Labels
+    ratingFile = open(file, 'r')
+    lines = ratingFile.readlines()
+    currentIndex = 0
 
-for line in lines:
-    line = line.replace('\n', '').split(' ')
-    currentIndex += 1
-    imgFileName = line[0]
-    imgScore = int(float(line[1]))
+    for line in lines:
+        line = line.replace('\n', '').split(' ')
+        currentIndex += 1
+        imgFileName = line[0]
+        imgScore = int(float(line[1]))
 
-    # print("Reading Img: " + imgFileName + " Score: " +
-    # str(imgScore) + " CIndex: " + str(currentIndex) + "/" + str(lines.__len__()))
+        # print("Reading Img: " + imgFileName + " Score: " +
+        # str(imgScore) + " CIndex: " + str(currentIndex) + "/" + str(lines.__len__()))
 
-    if prVoteImgName == '':
-        prVoteImgName = imgFileName
+        if prVoteImgName == '':
+            prVoteImgName = imgFileName
 
-    if (imgFileName != prVoteImgName) or (currentIndex == lines.__len__()):
+        if (imgFileName != prVoteImgName) or (currentIndex == lines.__len__()):
 
-        totalVotes = prVoteImgScr1 + prVoteImgScr2 + \
-            prVoteImgScr3 + prVoteImgScr4 + prVoteImgScr5
+            totalVotes = prVoteImgScr1 + prVoteImgScr2 + \
+                prVoteImgScr3 + prVoteImgScr4 + prVoteImgScr5
 
-        score1 = prVoteImgScr1 / totalVotes
-        score2 = prVoteImgScr2 / totalVotes
-        score3 = prVoteImgScr3 / totalVotes
-        score4 = prVoteImgScr4 / totalVotes
-        score5 = prVoteImgScr5 / totalVotes
+            score1 = prVoteImgScr1 / totalVotes
+            score2 = prVoteImgScr2 / totalVotes
+            score3 = prVoteImgScr3 / totalVotes
+            score4 = prVoteImgScr4 / totalVotes
+            score5 = prVoteImgScr5 / totalVotes
+            
+            im = getFace(face_cascade, const.DATA_PATH, prVoteImgName)
 
-        im = getFace(face_cascade, const.DATA_PATH, prVoteImgName)
+            if isinstance(im, numpy.ndarray):
+                normed_img = (im - 127.5) / 127.5
 
-        if isinstance(im, numpy.ndarray):
-            normed_img = (im - 127.5) / 127.5
+                ld = []
+                ld.append(score1)
+                ld.append(score2)
+                ld.append(score3)
+                ld.append(score4)
+                ld.append(score5)
+                label_dist.append([prVoteImgName, normed_img, ld])
 
-            ld = []
-            ld.append(score1)
-            ld.append(score2)
-            ld.append(score3)
-            ld.append(score4)
-            ld.append(score5)
-            label_dist.append([prVoteImgName, normed_img, ld])
+            else:
+                print("Error getting face or reading img")
 
-        else:
-            print("Error getting face or reading img")
+            prVoteImgName = imgFileName
+            prVoteImgScr1 = 0
+            prVoteImgScr2 = 0
+            prVoteImgScr3 = 0
+            prVoteImgScr4 = 0
+            prVoteImgScr5 = 0
 
-        prVoteImgName = imgFileName
-        prVoteImgScr1 = 0
-        prVoteImgScr2 = 0
-        prVoteImgScr3 = 0
-        prVoteImgScr4 = 0
-        prVoteImgScr5 = 0
+        if imgScore == 1:
+            prVoteImgScr1 += 1
+        elif imgScore == 2:
+            prVoteImgScr2 += 1
+        elif imgScore == 3:
+            prVoteImgScr3 += 1
+        elif imgScore == 4:
+            prVoteImgScr4 += 1
+        elif imgScore == 5:
+            prVoteImgScr5 += 1
 
-    if imgScore == 1:
-        prVoteImgScr1 += 1
-    elif imgScore == 2:
-        prVoteImgScr2 += 1
-    elif imgScore == 3:
-        prVoteImgScr3 += 1
-    elif imgScore == 4:
-        prVoteImgScr4 += 1
-    elif imgScore == 5:
-        prVoteImgScr5 += 1
-
-ratingFile.close()
+    ratingFile.close()
 
 # Split data for training + testing
 dataSplitIndex = int(label_dist.__len__() - label_dist.__len__()*0.1)

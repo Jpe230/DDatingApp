@@ -7,6 +7,10 @@ __pycache__/
 neuralnetwork/data/
 neuralnetwork/dataset/
 
+# Own data
+classifier/data.py
+classifier/images
+
 # Selenium data
 tinderbot/seleniumData/
 
