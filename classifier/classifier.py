@@ -4,7 +4,7 @@ from os import listdir
 from os.path import isfile, join
 import numpy
 
-files = ['./images/' + f for f in listdir('./images') if isfile(join('./images', f))]
+files = ['./Images/' + f for f in listdir('./Images') if isfile(join('./Images', f))]
 
 random.shuffle(files)
 

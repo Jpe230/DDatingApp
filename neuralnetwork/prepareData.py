@@ -77,7 +77,7 @@ def getFace(detector, imgPath, imgName):
     else:
         # Try resizing still, since our data is kinda normalized
         resized_img = cv2.resize(img, (224, 224))
-        print("Error detecting faces, file:" + imgName)
+        #print("Error detecting faces, file:" + imgName)
 
     return resized_img
 
@@ -130,6 +130,9 @@ for file in rating_files:
         currentIndex += 1
         imgFileName = line[0]
         imgScore = int(float(line[1]))
+
+        # Everybody needs love
+        imgScore = 1 if imgScore == 0 else imgScore
 
         # print("Reading Img: " + imgFileName + " Score: " +
         # str(imgScore) + " CIndex: " + str(currentIndex) + "/" + str(lines.__len__()))

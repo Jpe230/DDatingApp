@@ -41,7 +41,7 @@ def getFace(detector, img):
     
     return resized_img
 
-def convert_url_to_img(url):
+def convert_url_to_img(u):
     try:
         resp = ur.urlopen(u)
         image = np.asarray(bytearray(resp.read()), dtype="uint8")
@@ -59,6 +59,6 @@ for u in data.data:
     if isinstance(img, np.ndarray):
         img = getFace(face_cascade, img)
         if isinstance(img, np.ndarray):
-            result = "./images/{}.jpg".format(idx)
+            result = "./Images/{}.jpg".format(idx)
             idx += 1
             cv2.imwrite(result, img)
